@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="seireki">
+        <div>
+            <select id="hoge">
+            </select>
+            年</div>
+        <div>
+            <select id="hoge2">
+            </select>
+            月</div>
+        <div>
+            <select id="hoge3">
+            </select>
+            日</div>
+        <div class="change">
+            <button id="button">元号変換</button>
+            <h1><span id="changed"></span>です！</h1>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            var yearrange = [1868, 2019];
+            var monthrange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+            var dayrange = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+
+            let yearoption = [];
+            for (var i = yearrange[0]; i <= yearrange[1]; i++) {
+                yearoption += '<option>' + i + '</option>';
+            }
+            $('#hoge').html(yearoption)
+
+            let monthoption = [];
+            for (var i = 0; i < monthrange.length; i++) {
+                monthoption += '<option>' + monthrange[i] + '</option>';
+            }
+            $('#hoge2').html(monthoption)
+
+            let dayoption = [];
+            for (var i = 0; i < dayrange.length; i++) {
+                dayoption += '<option>' + dayrange[i] + '</option>';
+            }
+            $('#hoge3').html(dayoption)
+
+            $('#hoge2').on('change', function () {
+                // alert($('#hoge2').val());
+                if ($('#hoge2').val() == 2) {
+                    dayrange.pop();
+                    dayrange.pop();
+
+                    dayrange.pop();
+
+                    dayoption = '';
+                    for (var i = 0; i < dayrange.length; i++) {
+                        dayoption += '<option>' + dayrange[i] + '</option>';
+                    }
+                    $('#hoge3').html(dayoption)
+
+                } else if ($('#hoge2').val() == 4) {
+                    dayrange.pop();
+
+                    dayoption = '';
+                    for (var i = 0; i < dayrange.length; i++) {
+                        dayoption += '<option>' + dayrange[i] + '</option>';
+                    }
+                    $('#hoge3').html(dayoption)
+
+                }
+            });
+
+            //ここに自分の処理を追加!
+            $('.change').on('click', function () {
+                var element = document.getElementById('hoge');
+                var y = element.value;
+                var element = document.getElementById('hoge2');
+                var m = element.value;
+                var element = document.getElementById('hoge3');
+                var d = element.value;
+
+                var dt = new Date(y, (m - 1), d);
+                var opt = { era: 'short', year: 'numeric', month: 'long', day: 'numeric' };
+                var wareki = dt.toLocaleDateString("ja-JP-u-ca-japanese", opt);
+                $('#changed').text(wareki);
+            });
+
+
+        }); 
+    </script>
+</body>
+
+</html>
